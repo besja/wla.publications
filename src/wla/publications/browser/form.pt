@@ -1,0 +1,34 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="example.dexterityforms"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+
+         <h1 class="documentFirstHeading" tal:content="here/Title | nothing" />
+
+
+        <div id="content-core" tal:define="publications view/getList">
+
+        	<table class="publications-list">
+        		<tr tal:repeat="item publications" >
+        			<td><input class="qty" type="number" value="0" tal:attributes="data-id python:item.UID"/></td>
+        			<td>
+        				<h3 tal:content="item/Title"></h3>
+        				<div class="description" tal:content="item/Description"></div>
+        				<div class="link"></div>
+        			</td>
+        		</tr>
+        	</table>
+            <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
+        </div>
+
+    </metal:block>
+
+</html>
+
+
+

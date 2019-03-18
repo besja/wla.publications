@@ -1,0 +1,37 @@
+Metadata-Version: 1.1
+Name: wla.publications
+Version: 0.1
+Summary: An add-on for Plone
+Home-page: http://pypi.python.org/pypi/wla.publications
+Author: besja
+Author-email: besja@yandex.ru
+License: GPL
+Description: ====================
+        wla.publications
+        ====================
+        
+        *Please fill me*
+        
+        Contributors
+        ============
+        
+        - besja, besja@yandex.ru
+        Changelog
+        =========
+        
+        
+        0.1 (unreleased)
+        ----------------
+        
+        - Initial release.
+          [besja]
+        
+        
+        
+Keywords: Python Plone
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 5.1
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
