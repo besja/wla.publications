@@ -1,4 +1,4 @@
-Metadata-Version: 1.1
+Metadata-Version: 2.1
 Name: wla.publications
 Version: 0.1
 Summary: An add-on for Plone
@@ -35,3 +35,4 @@ Classifier: Framework :: Plone
 Classifier: Framework :: Plone :: 5.1
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 2.7
+Provides-Extra: test

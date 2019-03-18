@@ -34,18 +34,38 @@ from Products.CMFCore.interfaces import ISiteRoot
 
 from plone.app.uuid.utils import uuidToObject
 
+greetings = SimpleVocabulary(
+    [
+     SimpleTerm(value='--NOVALUE--', title=_(u'select value')),
+     SimpleTerm(value='An', title=_(u'An')),
+     SimpleTerm(value='Ehepaar', title=_(u'Ehepaar')),
+     SimpleTerm(value='Familie', title=_(u'Familie')), 
+     SimpleTerm(value='Firma', title=_(u'Firma')),
+     SimpleTerm(value='Frau', title=_(u'Frau')),
+     SimpleTerm(value='Herr', title=_(u'Herr')),
+     SimpleTerm(value='Herr und Frau', title=_(u'Herr und Frau')),
 
+     ]
+    )
+
+titles = SimpleVocabulary(
+    [SimpleTerm(value='--NOVALUE--', title=_(u'select value')),
+     SimpleTerm(value='Dr.', title=_(u'Dr.')),
+     SimpleTerm(value='Professor', title=_(u'Professor')),
+     SimpleTerm(value='Prof. Dr.', title=_(u'Prof. Dr.'))
+
+     ]
+    )
 
 class IOrderForm(form.Schema):
     """ Define form fields """
-    greeting = schema.TextLine(title = _(u'greeting'), required = True) 
-    title = schema.TextLine(title = _(u'title'), required = False) 
-
+    greeting = schema.List(title = _(u'greeting'), required = True, value_type=schema.Choice(source=greetings)) 
+    titles = schema.List(title = _(u'title'), required = True, value_type=schema.Choice(source=titles)) 
+    
+    organization = schema.TextLine(title=_(u'Organization'), required=False)
+    
     lastname = schema.TextLine(title=_(u'Lastname'), required=True)
     firstname = schema.TextLine(title=_(u'Firstname'), required=True)
-   
-    job = schema.TextLine(title=_(u'Job'), required=False)
-    organization = schema.TextLine(title=_(u'Organization'), required=False)
     
     street = schema.TextLine(title=_(u'Street'), required=True)
     number = schema.TextLine(title=_(u'Number'), required=True)
@@ -59,7 +79,8 @@ class IOrderForm(form.Schema):
     publications = schema.Text(
             title=_(u"publications")
         )
-
+    form.widget(greeting=z3c.form.browser.select.SelectFieldWidget)
+    form.widget(titles=z3c.form.browser.select.SelectFieldWidget)
 
 class OrderForm(form.SchemaForm):
     """ Define Form handling
@@ -70,6 +91,17 @@ class OrderForm(form.SchemaForm):
     template = Zope3PageTemplateFile("form.pt")
     schema = IOrderForm
     ignoreContext = True
+
+    def getTitles(self, value):
+        for i in titles:
+            if i.value in value:
+                return self.context.translate(i.title)
+
+
+    def getGreeting(self, value):
+        for i in greetings:
+            if i.value in value:
+                return self.context.translate(i.title)
 
     def getList(self):
         context = self.context
@@ -94,13 +126,26 @@ class OrderForm(form.SchemaForm):
         portal = getToolByName(self, 'portal_url').getPortalObject()
         encoding = portal.getProperty('email_charset', 'utf-8')
 
-        data['image_object'] = uuidToObject(data['image'])
-         
-        trusted_template = trusted(portal.greeting_email)
+        result = data['publications'].split(",")
+
+        publications = []
+
+        for p in result:
+            k = p.split(":")
+            if len(k) == 2:
+                image = uuidToObject(k[0])
+                qty = k[1]
+                publications.append([image, qty])
+
+
+        data['publications'] = publications
+        data['greeting'] = self.getGreeting(data['greeting'])
+        data['titles'] = self.getTitles(data['titles'])
+        trusted_template = trusted(portal.order_email)
 
         mail_text = trusted_template(self, charset=encoding, data = data)
 
-        subject = self.context.translate(_(u"New greeting"))
+        subject = self.context.translate(_(u"New order"))
 
         if isinstance(mail_text, unicode):
             mail_text = mail_text.encode(encoding)
@@ -111,9 +156,10 @@ class OrderForm(form.SchemaForm):
         mail_settings = registry.forInterface(IMailSchema, prefix='plone')
         m_to = mail_settings.email_from_address
 
-        m_from = m_to
+        # to admin 
 
-        print m_to
+        m_from = m_to 
+
 
         try:
             host.send(mail_text, m_to, m_from, subject=subject,
@@ -128,7 +174,33 @@ class OrderForm(form.SchemaForm):
 
         except SMTPException as e:
             raise(e)
-        
+
+        # to client
+
+        trusted_template = trusted(portal.order_email2)
+
+        mail_text = trusted_template(self, charset=encoding, data = data)
+
+        subject = self.context.translate(_(u"New order"))
+
+        if isinstance(mail_text, unicode):
+            mail_text = mail_text.encode(encoding)
+
+
+        try:
+            host.send(mail_text, data['email'], m_from, subject=subject,
+                      charset=encoding, immediate=True, msg_type="text/html")
+
+
+        except SMTPRecipientsRefused:
+
+            raise SMTPRecipientsRefused(
+                _(u'Recipient address rejected by server.'))
+
+        except SMTPException as e:
+            raise(e)
+
+
         IStatusMessage(self.request).add(_(u"Submit complete"), type='info')
         return self._redirect(target=self.context.absolute_url())
 
