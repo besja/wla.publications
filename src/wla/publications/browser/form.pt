@@ -20,15 +20,21 @@
         			<td>
               <tal:check tal:define="has_img obj/image|nothing;
                    scales obj/@@images|nothing;
-                   leadsize python:'mini'"
+                   leadsize python:'thumb'"
                     tal:condition="python:has_img and scales and leadsize and leadsize != 'none'" >
-                <div tal:attributes="class python:'leadimage image-' + leadsize">
-                  <img  tal:replace="structure python: scales.scale('image', scale=leadsize).tag(css_class='newsImage')" />
-                </div>
+                <a class="pat-plone-modal" data-pat-plone-modal="image: true" data-modal-srcset="" tal:attributes="href string:${obj/absolute_url}/@@images/image/large">
+                  <img  class="product-image-preview" alt="" tal:attributes="src string:${obj/absolute_url}/@@images/image/thumb" />
+                </a>
               </tal:check>
         				<h3 tal:content="item/Title"></h3>
         				<div class="description" tal:content="item/Description"></div>
-        				<div class="link" tal:condition="obj/remoteUrl"><a href="" tal:attributes="href obj/remoteUrl" tal:content="obj/remoteUrl"></a></div>
+                <tal:if define="pdf_file nocall:obj/file"
+                        tal:condition="nocall:pdf_file">
+                  <a class="link" 
+                     tal:attributes="href string:${obj/absolute_url}/@@download/file/${obj/file/filename}">
+                      <tal:name tal:content="obj/file/filename" >Filename</tal:name>
+                  </a>
+                </tal:if> 				
         			</td>
             </tal:x>
         		</tr>

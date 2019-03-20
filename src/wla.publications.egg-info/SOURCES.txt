@@ -41,10 +41,14 @@ src/wla/publications/profiles/default/browserlayer.xml
 src/wla/publications/profiles/default/jsregistry.xml
 src/wla/publications/profiles/default/metadata.xml
 src/wla/publications/profiles/default/registry.xml
+src/wla/publications/profiles/default/skins.xml
 src/wla/publications/profiles/default/types.xml
 src/wla/publications/profiles/default/wlapublications_marker.txt
+src/wla/publications/profiles/default/types/Folder.xml
 src/wla/publications/profiles/default/types/publication.xml
 src/wla/publications/resources/form.js
+src/wla/publications/skins/wla_publications/order_email.pt
+src/wla/publications/skins/wla_publications/order_email2.pt
 src/wla/publications/tests/__init__.py
 src/wla/publications/tests/test_robot.py
 src/wla/publications/tests/test_setup.py
