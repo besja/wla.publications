@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-03-21 09:57+0000\n"
+"POT-Creation-Date: 2019-03-21 12:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,7 +154,7 @@ msgstr "Titel"
 #: ./../skins/wla_publications/order_email.pt:31
 #: ./../skins/wla_publications/order_email2.pt:31
 msgid "Your Team"
-msgstr ""
+msgstr "Ihr Wittelsbacherland-Team"
 
 #: ./../browser/form.py:73
 #: ./../skins/wla_publications/order_email.pt:25
@@ -166,34 +166,43 @@ msgstr "PLZ"
 #: ./../skins/wla_publications/order_email.pt:14
 #: ./../skins/wla_publications/order_email2.pt:14
 msgid "data"
-msgstr "Ihre Daten:"
+msgstr "Übersicht Ihrer persönlichen Angaben:"
 
 #. Default: "Dear, ${firstname} ${lastname}"
 #: ./../browser/form.py:63
-#: ./../skins/wla_publications/order_email.pt:3
-#: ./../skins/wla_publications/order_email2.pt:3
 msgid "greeting"
 msgstr "anrede"
+
+#. Default: "Dear, ${firstname} ${lastname}"
+#: ./../skins/wla_publications/order_email.pt:3
+#: ./../skins/wla_publications/order_email2.pt:3
+msgid "greeting_msg"
+msgstr "Sehr geehrte/r ${firstname} ${lastname}"
 
 #: ./../browser/form.py:81
 msgid "publications"
 msgstr ""
 
+#: ./../skins/wla_publications/order_email.pt:10
+#: ./../skins/wla_publications/order_email2.pt:10
+msgid "quantity:"
+msgstr "Menge:"
+
 #. Default: "king regards"
 #: ./../skins/wla_publications/order_email.pt:30
 #: ./../skins/wla_publications/order_email2.pt:30
 msgid "regards"
-msgstr ""
+msgstr "Mit den besten Grüßen"
 
 #: ./../browser/form.py:40
 msgid "select value"
-msgstr ""
+msgstr "Bitte auswählen"
 
 #. Default: "Thank you for yout order!"
 #: ./../skins/wla_publications/order_email.pt:5
 #: ./../skins/wla_publications/order_email2.pt:5
 msgid "thank_you"
-msgstr ""
+msgstr "Vielen Dank für Ihre Bestellung"
 
 #: ./../browser/form.py:64
 msgid "title"
