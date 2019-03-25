@@ -23,4 +23,5 @@
       permission="zope2.View"
       layer="..interfaces.IWlaPublicationsLayer"
       />
+
 </configure>
